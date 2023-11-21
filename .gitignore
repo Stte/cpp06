@@ -1,0 +1,4 @@
+*.o
+.vscode
+Serialization
+Base
