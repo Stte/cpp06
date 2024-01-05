@@ -6,21 +6,20 @@
 /*   By: tspoof <tspoof@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:38:10 by tspoof            #+#    #+#             */
-/*   Updated: 2023/12/27 16:25:41 by tspoof           ###   ########.fr       */
+/*   Updated: 2024/01/05 15:41:30 by tspoof           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-#include <string>
-#include <sstream>
-#include <iostream>
-
-int main()
+int main(int argc, char *argv[])
 {
-	// ScalarConverter::convert("42.22");
-	ScalarConverter::convert("K");
-	ScalarConverter::convert("42.22");
-	ScalarConverter::convert("22.11f");
+	if (argc != 2)
+	{
+		std::cout << "Usage: ./scalar char | int | float | double" << std::endl;
+		return 1;
+	}
+	std::string input(argv[1]);
+	ScalarConverter::convert(input);
 	return (0);
 }

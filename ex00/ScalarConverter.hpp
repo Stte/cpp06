@@ -6,7 +6,7 @@
 /*   By: tspoof <tspoof@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:32:42 by tspoof            #+#    #+#             */
-/*   Updated: 2023/11/16 16:11:11 by tspoof           ###   ########.fr       */
+/*   Updated: 2024/01/05 15:35:54 by tspoof           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <limits>
+#include <algorithm>
+#include <iomanip>
 
 class ScalarConverter
 {

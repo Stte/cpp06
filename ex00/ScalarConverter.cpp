@@ -6,7 +6,7 @@
 /*   By: tspoof <tspoof@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 16:06:13 by tspoof            #+#    #+#             */
-/*   Updated: 2023/12/27 16:34:04 by tspoof           ###   ########.fr       */
+/*   Updated: 2024/01/05 15:39:08 by tspoof           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ void ScalarConverter::convert(std::string n)
 	int i = 0;
 	float f = 0.0f;
 	double d = 0.0;
-
-
-	std::cout << "ehhehe " << n.compare(".") << std::endl;
+	bool impossible = false;
 
 	if (n.compare("nan") == 0 || n.compare("nanf") == 0)
 	{
 		d = std::numeric_limits<double>::quiet_NaN();
 		f = std::numeric_limits<float>::quiet_NaN();
-
+		impossible = true;
 		// char impossible
 		// int impossible
 	}
@@ -39,7 +37,7 @@ void ScalarConverter::convert(std::string n)
 	{
 		d = std::numeric_limits<double>::infinity();
 		f = std::numeric_limits<float>::infinity();
-
+		impossible = true;
 		// char impossible
 		// int imppossible
 	}
@@ -48,75 +46,87 @@ void ScalarConverter::convert(std::string n)
 	{
 		d = -std::numeric_limits<double>::infinity();
 		f = -std::numeric_limits<float>::infinity();
-
+		impossible = true;
 		// char impossible
 		// int impossible
 	}
 
 	// if has . and f is float
-	else if (n.find(".") != string::npos && n.find("f") != string::npos)
+	else if (n.find(".") != std::string::npos && n.find("f") != std::string::npos)
 	{
-		std::cout << "float" << std::endl;
 		n.erase(std::remove(n.begin(), n.end(), 'f'), n.end());
 		stream.str(n);
 		stream >> f;
 		if (stream.fail())
+		{
 			std::cout << "error" << std::endl;
+			return;
+		}
 		c = static_cast<char>(f);
 		i = static_cast<int>(f);
 		d = static_cast<double>(f);
 	}
 
-
 	// if has . and no f is double
-	else if (n.compare(".") == 0)
+	else if (n.find(".") != std::string::npos)
 	{
-		std::cout << "double" << std::endl;
 		stream.str(n);
 		stream >> d;
 		if (stream.fail())
+		{
 			std::cout << "error" << std::endl;
+			return;
+		}
 		c = static_cast<char>(d);
 		i = static_cast<int>(d);
 		f = static_cast<float>(d);
 	}
 
-	// if it's printable is char
-	else if (n.length() == 1 && isprint(n[0]))
+	// if it's a char
+	// else if (n.length() == 1 && isprint(n[0]))
+	else if (n.length() == 1)
 	{
-		std::cout << "char" << std::endl;
 		stream.str(n);
 		stream >> c;
 		if (stream.fail())
+		{
 			std::cout << "error" << std::endl;
+			return;
+		}
 		i = static_cast<int>(c);
 		f = static_cast<float>(c);
 		d = static_cast<double>(c);
 	}
 
 	// if number is int
-
-
-	std::cout << "i: " << i << std::endl;
-	std::cout << "f: " << f << std::endl;
-	std::cout << "d: " << d << std::endl;
-	std::cout << "c: " << c << std::endl;
-
+	else
+	{
+		stream.str(n);
+		stream >> i;
+		if (stream.fail())
+		{
+			std::cout << "error" << std::endl;
+			return;
+		}
+		c = static_cast<char>(i);
+		f = static_cast<float>(i);
+		d = static_cast<double>(i);
+	}
 
 	// print stuff
-
-	// stream.str(n);
-	// stream >> i;
-	// if (stream.fail())
-	// 	std::cout << "error" << std::endl;
-	// std::cout << i << std::endl;
-
-	// stream.clear();
-	// stream.str(n);
-	// stream >> f;
-	// if (stream.fail())
-	// 	std::cout << "error2" << std::endl;
-	// std::cout << f << std::endl;
-
-
+	if (impossible)
+	{
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "int: impossible" << std::endl;
+	}
+	else
+	{
+		if (isprint(c))
+			std::cout << "char: " << c << std::endl;
+		else
+			std::cout << "char: Non displayable" << std::endl;
+		std::cout << "int: " << i << std::endl;
+	}
+	std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+	std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 }
